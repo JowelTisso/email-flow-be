@@ -19,6 +19,7 @@ const NodeSchema = new mongoose.Schema({
     icColor: String,
     waitTime: String,
     waitType: String,
+    emails: [String],
     value: {
       body: String,
       name: String,

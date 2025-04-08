@@ -19,6 +19,16 @@ const saveNodes = async (req, res) => {
   }
 };
 
+const getAllNodes = async (req, res) => {
+  try {
+    const nodes = await Node.find({});
+    res.status(201).json(nodes);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get all nodes" });
+  }
+};
+
 module.exports = {
   saveNodes,
+  getAllNodes,
 };
