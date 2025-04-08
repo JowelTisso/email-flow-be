@@ -7,7 +7,7 @@ const initiateMailSender = async (
   email,
   subject,
   body,
-  scheduleTime = "after 5 seconds"
+  scheduleTime = "after 1 hour"
 ) => {
   agenda.define("sendMail", async () => {
     const info = await transporter.sendMail({
@@ -65,7 +65,7 @@ const saveSchedule = async (req, res) => {
           const body = node.data.value.body;
           const subject = node.data.value.subject;
           const scheduleString = `After ${waitTime} ${waitType}`;
-          initiateMailSender(email, body, subject, scheduleString);
+          initiateMailSender(email, subject, body, scheduleString);
         }
       });
     }
