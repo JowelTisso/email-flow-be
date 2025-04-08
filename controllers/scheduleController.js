@@ -31,8 +31,9 @@ const saveSchedule = async (req, res) => {
     const { time, subject, body, email } = req.body;
 
     const nodes = await Node.find({});
-    const emailNodes = nodes.filter((node) => node.type === "email");
-    const followUpNodes = emailNodes.filter((node) => !!node.data.followUp);
+    const followUpNodes = nodes.filter(
+      (node) => !!node.data.followUp || node.type === "delay"
+    );
 
     if (!time || !subject || !body || !email) {
       return res.status(400).json({ error: "All fields are required!" });
@@ -52,11 +53,20 @@ const saveSchedule = async (req, res) => {
 
     initiateMailSender(email, subject, body);
 
+    let waitTime = 0;
+    let waitType = "minutes";
+
     if (followUpNodes.length > 0) {
       followUpNodes.forEach((node) => {
-        const body = node.data.value.body;
-        const subject = node.data.value.subject;
-        initiateMailSender(email, body, subject);
+        if (node.type === "delay") {
+          waitTime = node.data.waitTime;
+          waitType = node.data.waitType;
+        } else {
+          const body = node.data.value.body;
+          const subject = node.data.value.subject;
+          const scheduleString = `After ${waitTime} ${waitType}`;
+          initiateMailSender(email, body, subject, scheduleString);
+        }
       });
     }
 
