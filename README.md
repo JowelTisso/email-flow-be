@@ -61,6 +61,15 @@ To start the development server:
 
 The server will run on http://localhost:5000 by default.
 
+## Check Mail:
+
+To check if the mail has been sent
+Go to `https://ethereal.email/messages`
+and login using below credentials:
+
+> ETHEREAL_EMAIL=katelin.fritsch@ethereal.email
+> ETHEREAL_PASS=hSegHyrQ3HAXP9nxe9
+
 ## API Endpoints
 
 The backend provides the following main API endpoints:
